@@ -1,0 +1,14 @@
+{
+    "title": "Sample Webtask",
+    "name": "sample-webtask",
+    "version": "1.0.0",
+    "author": "auth0",
+    "description": "This is an example about how to use webtasks",
+    "type": "application",
+    "repository": "https://github.com/jcenturion/sample-webtask",
+    "keywords": [
+      "auth0",
+      "extension"s
+    ],
+    "codeUrl": "https://raw.githubusercontent.com/jcenturion/sample-webtask/master/indexes.js"
+  }
