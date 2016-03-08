@@ -5,10 +5,9 @@
     "author": "auth0",
     "description": "This is an example about how to use webtasks",
     "type": "application",
-    "reposi tory": "https://github.com/jcenturion/sample-webtask",
+    "repository": "https://github.com/jcenturion/sample-webtask",
     "keywords": [
       "auth0",
       "extension"
-    ],
-    "codeUrl": "https://raw.githubusercontent.com/jcenturion/sample-webtask/master/index.js"
+    ]
   }
