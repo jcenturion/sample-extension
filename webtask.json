@@ -2,7 +2,7 @@
     "title": "Sample Webtask",
     "name": "sample-webtask",
     "version": "1.0.0",
-    "author": "auth0",
+    "author": "javier.centurion@auth0.com",
     "description": "This is an example about how to use webtasks",
     "type": "application",
     "repository": "https://github.com/jcenturion/sample-webtask",
