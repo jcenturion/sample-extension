@@ -1,13 +1,11 @@
-  {
-    "title": "Sample Webtask",
-    "name": "sample-webtask",
-    "version": "1.0.0",
-    "author": "javier.centurion@auth0.com",
-    "description": "This is an example about how to use webtasks",
-    "type": "application",
-    "repository": "https://github.com/jcenturion/sample-webtask",
-    "keywords": [
-      "auth0",
-      "extension"
-    ]
-  }
+{
+  "title": "Sample Extension",
+  "name": "sample-extension",
+  "version": "1.0.0",
+  "author": "javier.centurion@auth0.com",
+  "description": "A Sample Extension",
+  "type": "application",
+  "keywords": [
+    "auth0"
+  ]
+}
