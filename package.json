@@ -12,6 +12,7 @@
   "author": "javier.centurion@auth0.com",
   "license": "MIT",
   "dependencies": {
+    "auth0-oauth2-express": "^1.1.3",
     "express": "4.12.4",
     "webtask-tools": "1.3.0"
   },

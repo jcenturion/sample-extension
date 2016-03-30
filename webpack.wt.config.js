@@ -7,6 +7,8 @@ var LIST_MODULES_URL = 'https://webtask.it.auth0.com/api/run/wt-tehsis-gmail_com
 module.exports = Request.get(LIST_MODULES_URL, { json: true }).then(function (data) {
   var modules = data.modules;
 
+  modules = _.filter(modules, function (e) { return e.name !== 'auth0-oauth2-express'});
+
   return {
     entry: './webtask',
     output: {
@@ -27,11 +29,11 @@ module.exports = Request.get(LIST_MODULES_URL, { json: true }).then(function (da
       // Not provisioned via verquire
       'auth0-api-jwt-rsa-validation': true,
       'auth0-authz-rules-api': true,
-      'auth0-oauth2-express': true,
+      'auth0-oauth2-express': false,
       'auth0-sandbox-ext': true,
       'detective': true,
       'sandboxjs': true,
-      'webtask-tools': false
+      'webtask-tools': true
     }),
     plugins: [
       new Webpack.optimize.DedupePlugin()
