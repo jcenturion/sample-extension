@@ -15,6 +15,7 @@ app.use(function (req, res, next) {
 app.get('/', function (req, res) {
   res.header("Content-Type", 'text/html');
   res.status(200).send(template({
+    baseUrl: res.locals.baseUrl,
     domain: 'https://' + req.webtaskContext.data.AUTH0_DOMAIN
   }));
 });
