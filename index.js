@@ -8,7 +8,7 @@ var Auth0    = require('auth0');
 var _        = require('lodash');
 var jwt      = require('jsonwebtoken');
 
-app.use(function (req, res, next) {
+app.use('/', function (req, res, next) {
   auth0({
     scopes:              req.webtaskContext.data.AUTH0_SCOPES,
     clientId:            req.webtaskContext.data.AUTH0_CLIENT_ID,
