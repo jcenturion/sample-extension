@@ -1,4 +1,4 @@
-var app      = express();
+var express  = require('express');
 var Request  = require('superagent');
 var ManagementClient = require('auth0@2.1.0').ManagementClient;
 var _        = require('lodash');
