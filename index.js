@@ -7,8 +7,66 @@ var Request  = require('superagent');
 var Auth0    = require('auth0');
 var _        = require('lodash');
 var jwt      = require('jsonwebtoken');
+var hooks    = express.Router();
 
-app.use('/', function (req, res, next) {
+// Getting Auth0 APIV2 access_token
+hooks.use(function (req, res, next) {
+  getToken(req, function (access_token, err) {
+    if (err) return next(err);
+
+    var auth0 = new Auth0.ManagementClient({
+      domain: req.webtaskContext.data.AUTH0_DOMAIN,
+      token: access_token
+    });
+
+    req.auth0 = auth0;
+
+    next();
+  });
+});
+
+// This endpoint would be called by webtask-gallery
+hooks.post('/on-install', function (req, res) {
+  req.auth0.rules.create({
+    name: 'extension-rule',
+    script: "function (user, context, callback) {\n  callback(null, user, context);\n}",
+    order: 2,
+    enabled: true,
+    stage: "login_success"
+  })
+  .then(function () {
+    res.sendStatus(204);
+  })
+  .catch(function () {
+    res.sendStatus(500);
+  });
+});
+
+// This endpoint would be called by webtask-gallery
+hooks.delete('/on-uninstall', function (req, res) {
+  req.auth0
+    .rules.getAll(function (rules) {
+      var rule = _.find(rules, {name: 'extension-rule'});
+
+      if (rule) {
+        req.auth0
+          .rules.delete({ id: rule.id })
+          .then(function () {
+            res.sendStatus(204);
+          })
+          .catch(function () {
+            res.sendStatus(500);
+          });
+      }
+    })
+    .catch(function () {
+      res.sendStatus(500);
+    });
+});
+
+app.use('/.extensions', hooks);
+
+app.use(function (req, res, next) {
   auth0({
     scopes:              req.webtaskContext.data.AUTH0_SCOPES,
     clientId:            req.webtaskContext.data.AUTH0_CLIENT_ID,
@@ -44,62 +102,6 @@ app.use('/.extensions', function (req, res, next) {
 
     next();
   }
-});
-
-
-// Getting Auth0 APIV2 access_token
-app.use('/.extensions', function (req, res, next) {
-  getToken(req, function (access_token, err) {
-    if (err) return next(err);
-
-    var auth0 = new Auth0.ManagementClient({
-      domain: req.webtaskContext.data.AUTH0_DOMAIN,
-      token: access_token
-    });
-
-    req.auth0 = auth0;
-
-    next();
-  });
-});
-
-// This endpoint would be called by webtask-gallery
-app.post('/.extensions/on-install', function (req, res) {
-  req.auth0.rules.create({
-    name: 'extension-rule',
-    script: "function (user, context, callback) {\n  callback(null, user, context);\n}",
-    order: 2,
-    enabled: true,
-    stage: "login_success"
-  })
-  .then(function () {
-    res.sendStatus(204);
-  })
-  .catch(function () {
-    res.sendStatus(500);
-  });
-});
-
-// This endpoint would be called by webtask-gallery
-app.delete('/.extensions/on-uninstall', function (req, res) {
-  req.auth0
-    .rules.getAll(function (rules) {
-      var rule = _.find(rules, {name: 'extension-rule'});
-
-      if (rule) {
-        req.auth0
-          .rules.delete({ id: rule.id })
-          .then(function () {
-            res.sendStatus(204);
-          })
-          .catch(function () {
-            res.sendStatus(500);
-          });
-      }
-    })
-    .catch(function () {
-      res.sendStatus(500);
-    });
 });
 
 function getToken(req, cb) {
