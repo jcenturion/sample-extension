@@ -241,7 +241,7 @@ module.exports =
 	var metadata = __webpack_require__(/*! ./webtask.json */ 10);
 	var auth0    = __webpack_require__(/*! auth0-oauth2-express */ 11);
 	var Request  = __webpack_require__(/*! superagent */ 18);
-	var Auth0    = __webpack_require__(/*! auth0 */ 20);
+	var ManagementClient = __webpack_require__(/*! auth0@2.1.0 */ 20).ManagementClient;
 	var _        = __webpack_require__(/*! lodash */ 21);
 	var jwt      = __webpack_require__(/*! jsonwebtoken */ 17);
 	var hooks    = express.Router();
@@ -270,12 +270,12 @@ module.exports =
 	  getToken(req, function (access_token, err) {
 	    if (err) return next(err);
 	
-	    var auth0 = new Auth0.ManagementClient({
+	    var management = new ManagementClient({
 	      domain: req.webtaskContext.data.AUTH0_DOMAIN,
 	      token: access_token
 	    });
 	
-	    req.auth0 = auth0;
+	    req.auth0 = management;
 	
 	    next();
 	  });
@@ -1188,12 +1188,12 @@ module.exports =
 
 /***/ },
 /* 20 */
-/*!************************!*\
-  !*** external "auth0" ***!
-  \************************/
+/*!******************************!*\
+  !*** external "auth0@2.1.0" ***!
+  \******************************/
 /***/ function(module, exports) {
 
-	module.exports = require("auth0");
+	module.exports = require("auth0@2.1.0");
 
 /***/ },
 /* 21 */

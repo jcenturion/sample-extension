@@ -4,7 +4,7 @@ var template = require('./views/index.jade');
 var metadata = require('./webtask.json');
 var auth0    = require('auth0-oauth2-express');
 var Request  = require('superagent');
-var Auth0    = require('auth0');
+var ManagementClient = require('auth0@2.1.0').ManagementClient;
 var _        = require('lodash');
 var jwt      = require('jsonwebtoken');
 var hooks    = express.Router();
@@ -33,12 +33,12 @@ hooks.use(function (req, res, next) {
   getToken(req, function (access_token, err) {
     if (err) return next(err);
 
-    var auth0 = new Auth0.ManagementClient({
+    var management = new ManagementClient({
       domain: req.webtaskContext.data.AUTH0_DOMAIN,
       token: access_token
     });
 
-    req.auth0 = auth0;
+    req.auth0 = management;
 
     next();
   });
