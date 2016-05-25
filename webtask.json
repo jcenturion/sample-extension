@@ -11,7 +11,8 @@
   "auth0": {
     "createClient": true,
     "scopes": "create:rules",
-    "onInstallUrl": ".extensions/on-install",
-    "onUninstallUrl": ".extensions/on-uninstall"
+    "onInstallPath": "/.extensions/on-install",
+    "onUninstallPath": "/.extensions/on-uninstall",
+    "onUpdatePath": "/.extensions/on-update"
   }
 }
