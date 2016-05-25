@@ -8,9 +8,10 @@
   "keywords": [
     "auth0"
   ],
-  "initialUrlPath": "/login",
   "auth0": {
     "createClient": true,
-    "scopes": "read:connections"
+    "scopes": "create:rules",
+    "onInstallUrl": "/.extensions/on-install",
+    "onUninstallUrl": "/.extensions/on-uninstall"
   }
 }
