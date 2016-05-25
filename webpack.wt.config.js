@@ -43,6 +43,13 @@ module.exports = Request.get(LIST_MODULES_URL, { json: true }).then(function (da
       root: __dirname,
       alias: {},
     },
-    node: false
+    node: {
+      console: false,
+      global: false,
+      process: false,
+      Buffer: false,
+      __filename: false,
+      __dirname: false
+    }
   };
 });

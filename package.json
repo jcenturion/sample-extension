@@ -4,7 +4,7 @@
   "description": "A Sample Extension",
   "scripts": {
     "start": "webpack -d --config webpack.dev.config.js && node build/bundle.js",
-    "bundle": "webpack -p --config webpack.wt.config.js"
+    "bundle": "webpack -d --config webpack.wt.config.js"
   },
   "keywords": [
     "auth0"

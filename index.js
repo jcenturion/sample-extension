@@ -9,8 +9,27 @@ var _        = require('lodash');
 var jwt      = require('jsonwebtoken');
 var hooks    = express.Router();
 
+// Validate JWT
+hooks.use(function (req, res, next) {
+  console.log('Validate JWT');
+  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+    var token   = req.headers.authorization.split(' ')[1];
+    var isValid = jwt.verify(token, req.webtaskContext.data.EXTENSION_SECRET, {
+      audience: req.webtaskContext.data.AUTH0_CLIENT_ID,
+      issuer: 'https://' + req.webtaskContext.data.AUTH0_DOMAIN
+    });
+
+    if (!isValid) {
+      return res.sendStatus(401);
+    }
+
+    next();
+  }
+});
+
 // Getting Auth0 APIV2 access_token
 hooks.use(function (req, res, next) {
+  console.log('Getting Auth0 APIV2 access_token');
   getToken(req, function (access_token, err) {
     if (err) return next(err);
 
@@ -27,6 +46,8 @@ hooks.use(function (req, res, next) {
 
 // This endpoint would be called by webtask-gallery
 hooks.post('/on-install', function (req, res) {
+  console.log('/on-install');
+
   req.auth0.rules.create({
     name: 'extension-rule',
     script: "function (user, context, callback) {\n  callback(null, user, context);\n}",
@@ -85,23 +106,6 @@ app.get('/', function (req, res) {
 // This endpoint would be called by webtask-gallery to dicover your metadata
 app.get('/meta', function (req, res) {
   res.status(200).send(metadata);
-});
-
-// Validate JWT
-app.use('/.extensions', function (req, res, next) {
-  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-    var token   = req.headers.authorization.split(' ')[1];
-    var isValid = jwt.verify(token, req.webtaskContext.data.EXTENSION_SECRET, {
-      audience: req.webtaskContext.data.AUTH0_CLIENT_ID,
-      issuer: 'https://' + req.webtaskContext.data.AUTH0_DOMAIN
-    });
-
-    if (!isValid) {
-      return res.sendStatus(401);
-    }
-
-    next();
-  }
 });
 
 function getToken(req, cb) {
