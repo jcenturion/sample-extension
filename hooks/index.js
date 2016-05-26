@@ -4,27 +4,33 @@ var ManagementClient = require('auth0@2.1.0').ManagementClient;
 var _        = require('lodash');
 var jwt      = require('jsonwebtoken');
 var hooks    = express.Router();
+var Path     = require('path');
 
 module.exports = hooks;
 
-// Validate JWT
-hooks.use(function (req, res, next) {
-  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-    var token   = req.headers.authorization.split(' ')[1];
-    var isValid = jwt.verify(token, req.webtaskContext.data.EXTENSION_SECRET, {
-      audience: req.webtaskContext.data.WT_URL,
-      issuer: 'https://' + req.webtaskContext.data.AUTH0_DOMAIN
-    });
+function validateJwt (path) {
+  return function (req, res, next) {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+      var token = req.headers.authorization.split(' ')[1];
+      var isValid = jwt.verify(token, req.webtaskContext.data.EXTENSION_SECRET, {
+        audience: Path.join(req.webtaskContext.data.WT_URL, path),
+        issuer: 'https://' + req.webtaskContext.data.AUTH0_DOMAIN
+      });
 
-    if (!isValid) {
-      return res.sendStatus(401);
+      if (!isValid) {
+        return res.sendStatus(401);
+      }
+
+      return next();
     }
 
-    return next();
+    return res.sendStatus(401);
   }
+}
 
-  return res.sendStatus(401);
-});
+// Validate JWT for on-install
+hooks.use('/on-install', validateJwt('/.extensions/on-install'));
+hooks.use('/on-uninstall', validateJwt('/.extensions/on-uninstall'));
 
 // Getting Auth0 APIV2 access_token
 hooks.use(function (req, res, next) {
