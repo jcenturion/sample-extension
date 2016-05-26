@@ -62,7 +62,8 @@ hooks.post('/on-install', function (req, res) {
 // This endpoint would be called by webtask-gallery
 hooks.delete('/on-uninstall', function (req, res) {
   req.auth0
-    .rules.getAll(function (rules) {
+    .rules.getAll()
+    .then(function (rules) {
       var rule = _.find(rules, {name: 'extension-rule'});
 
       if (rule) {
