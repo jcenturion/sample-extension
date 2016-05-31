@@ -23,7 +23,7 @@ Note: Requires [webpack](https://webpack.github.io/docs/).
 ## Deploying to Webtask.io
 
 If you want to host your application, you can easily  do it by using [Webtask.io](https://webtask.io).
-
+ 
 ```bash
 $ npm run bundle
 $ wt create ./build/bundle.js --name sample_extension --no-parse --no-merge
