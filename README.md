@@ -2,7 +2,7 @@
 
 A Sample Extension
  
-## Running locally
+## Running locally  
 
 To run the sample locally:
 
