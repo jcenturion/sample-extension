@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A Sample Extension",
   "scripts": {
-    "start": "webpack -d --config webpack.dev.config.js && node build/bundle.js",
     "bundle": "webpack -p --config webpack.wt.config.js"
   },
   "keywords": [

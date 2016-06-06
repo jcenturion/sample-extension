@@ -88,11 +88,6 @@ hooks.delete('/on-uninstall', function (req, res) {
     });
 });
 
-// This endpoint would be called by webtask-gallery
-hooks.put('/on-update', function (req, res) {
-  res.sendStatus(204);
-});
-
 function getToken(req, cb) {
   var apiUrl = 'https://'+req.webtaskContext.data.AUTH0_DOMAIN+'/oauth/token';
   var audience = 'https://'+req.webtaskContext.data.AUTH0_DOMAIN+'/api/v2/';
