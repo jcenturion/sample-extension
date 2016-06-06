@@ -23,7 +23,7 @@ For using hooks you will have to do two things.
 app.use('/.extensions/on-install', ...);
 
 app.use('/.extensions/on-uninstall', ...);
-```
+``` 
 
 Note: if you don't add the entries to the `webtask.json` **Auth0 extensions** will not execute the hooks.
 
