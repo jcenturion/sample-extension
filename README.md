@@ -4,7 +4,7 @@
 
 ## Enabling hooks
 
-For using hooks you will have to do two things. 
+For using hooks you will have to do two things.  
 
 - Add a `onInstallPath` and/or `onUninstallPath` to your `webtask.json`
 
